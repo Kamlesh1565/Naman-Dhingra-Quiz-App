@@ -160,3 +160,4 @@ def delete_subject(id):
     conn.close()
     return redirect(url_for('admin_subjects'))
 
+#
