@@ -216,3 +216,38 @@ def user_search():
                     results.append(f"Quiz: {quiz['name']}")
 
     return render_template('search.html', results=results)
+
+
+# Admin search (search subjects or quizzes)
+@app.route('/admin/search', methods=['GET'])
+def admin_search():
+    query = request.args.get('query', '').lower()
+    results = []
+
+    for subject in subjects:
+        if query in subject['name'].lower():
+            results.append(f"Subject: {subject['name']}")
+
+        for chapter in subject['chapters']:
+            for quiz in chapter['quizzes']:
+                if query in quiz['name'].lower():
+                    results.append(f"Quiz: {quiz['name']}")
+
+    return render_template('admin_search.html', results=results)
+
+# User search (search subjects or quizzes)
+@app.route('/search', methods=['GET'])
+def user_search():
+    query = request.args.get('query', '').lower()
+    results = []
+
+    for subject in subjects:
+        if query in subject['name'].lower():
+            results.append(f"Subject: {subject['name']}")
+
+        for chapter in subject['chapters']:
+            for quiz in chapter['quizzes']:
+                if query in quiz['name'].lower():
+                    results.append(f"Quiz: {quiz['name']}")
+
+    return render_template('search.html', results=results)
