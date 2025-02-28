@@ -38,7 +38,7 @@ def init_db():
     
     conn.commit()
     conn.close()
-    
+
 #Creating a router
 #Home Page
 @app.route('/')
@@ -108,4 +108,38 @@ def add_quiz(chapter_id):
 
 if __name__ == '__main__':
     init_db()
+    app.run(debug=True)
+
+from flask import Flask, render_template, request, redirect, url_for
+
+app = Flask(__name__)
+
+#Database format creation
+subjects = [
+    {"id": 1, "name": "Math", "chapters": [
+        {"id": 1, "name": "Algebra", "quizzes": [{"id": 1, "name": "Quiz 1"}, {"id": 2, "name": "Quiz 2"}]},
+        {"id": 2, "name": "Geometry", "quizzes": [{"id": 3, "name": "Quiz 1"}]}
+    ]},
+    {"id": 2, "name": "Science", "chapters": [
+        {"id": 3, "name": "Physics", "quizzes": [{"id": 4, "name": "Quiz 1"}]}
+    ]}
+]
+
+# Admin Dashboard
+@app.route('/admin')
+def admin_dashboard():
+    return render_template('admin.html', subjects=subjects)
+
+# User Dashboard
+@app.route('/')
+def user_dashboard():
+    return render_template('index.html', subjects=subjects)
+
+# Quiz Attempt
+@app.route('/quiz/<int:quiz_id>')
+def attempt_quiz(quiz_id):
+    return render_template('quiz.html', quiz_id=quiz_id)
+
+# Run the app
+if __name__ == '__main__':
     app.run(debug=True)

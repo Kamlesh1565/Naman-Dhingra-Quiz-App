@@ -1,16 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Quiz Master</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>User Dashboard</title>
 </head>
 <body>
     <h1>Welcome to Quiz Master</h1>
-    <h2>Available Subjects</h2>
+
+    <h2>Available Subjects and Quizzes</h2>
     <ul>
         {% for subject in subjects %}
-            <li>{{ subject[1] }}</li>
+            <li>
+                <strong>{{ subject.name }}</strong>
+                <ul>
+                    {% for chapter in subject.chapters %}
+                        <li>
+                            {{ chapter.name }}
+                            <ul>
+                                {% for quiz in chapter.quizzes %}
+                                    <li>
+                                        <a href="/quiz/{{ quiz.id }}">{{ quiz.name }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
         {% endfor %}
     </ul>
 </body>
