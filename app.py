@@ -103,3 +103,60 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
+#ADMIN
+@app.route('/admin/subjects')
+def admin_subjects():
+    if session.get('role') != 'admin':
+        return redirect(url_for('login'))
+    conn = sqlite3.connect('quiz_master.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM Subject")
+    subjects = c.fetchall()
+    conn.close()
+    return render_template('admin_subjects.html', subjects=subjects)
+
+#Add a subject
+@app.route('/admin/subjects/add', methods=['GET', 'POST'])
+def add_subject():
+    if session.get('role') != 'admin':
+        return redirect(url_for('login'))
+    if request.method == 'POST':
+        name = request.form['name']
+        conn = sqlite3.connect('quiz_master.db')
+        c = conn.cursor()
+        c.execute("INSERT INTO Subject (name) VALUES (?)", (name,))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('admin_subjects'))
+    return render_template('add_subject.html')
+
+#Edit a subject
+@app.route('/admin/subjects/edit/<int:id>', methods=['GET', 'POST'])
+def edit_subject(id):
+    if session.get('role') != 'admin':
+        return redirect(url_for('login'))
+    conn = sqlite3.connect('quiz_master.db')
+    c = conn.cursor()
+    if request.method == 'POST':
+        new_name = request.form['name']
+        c.execute("UPDATE Subject SET name = ? WHERE id = ?", (new_name, id))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('admin_subjects'))
+    c.execute("SELECT * FROM Subject WHERE id = ?", (id,))
+    subject = c.fetchone()
+    conn.close()
+    return render_template('edit_subject.html', subject=subject)
+
+#Delete a subject
+@app.route('/admin/subjects/delete/<int:id>')
+def delete_subject(id):
+    if session.get('role') != 'admin':
+        return redirect(url_for('login'))
+    conn = sqlite3.connect('quiz_master.db')
+    c = conn.cursor()
+    c.execute("DELETE FROM Subject WHERE id = ?", (id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('admin_subjects'))
+
