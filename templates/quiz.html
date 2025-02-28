@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Attempt Quiz</title>
+</head>
+<body>
+    <h1>Attempt Quiz</h1>
+
+    <form action="/submit_quiz" method="POST">
+        <input type="hidden" name="quiz_id" value="{{ quiz_id }}">
+
+        <label>Question 1: What is 2 + 2?</label><br>
+        <input type="radio" name="q1" value="3"> 3<br>
+        <input type="radio" name="q1" value="4"> 4<br>
+        <input type="radio" name="q1" value="5"> 5<br>
+
+        <button type="submit">Submit Quiz</button>
+    </form>
+</body>
+</html>

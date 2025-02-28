@@ -125,20 +125,58 @@ subjects = [
     ]}
 ]
 
+
+
+
+
 # Admin Dashboard
 @app.route('/admin')
 def admin_dashboard():
     return render_template('admin.html', subjects=subjects)
+
+
+
 
 # User Dashboard
 @app.route('/')
 def user_dashboard():
     return render_template('index.html', subjects=subjects)
 
+
+
+
 # Quiz Attempt
 @app.route('/quiz/<int:quiz_id>')
 def attempt_quiz(quiz_id):
     return render_template('quiz.html', quiz_id=quiz_id)
+
+
+
+
+
+    
+
+# Sample data storage (replace with database in next phase)
+scores = []
+
+# Submit Quiz Route (handles score calculation and storage)
+@app.route('/submit_quiz', methods=['POST'])
+def submit_quiz():
+    quiz_id = request.form.get('quiz_id')
+    score = 0
+
+    # Sample scoring logic (replace with real question check logic later)
+    if request.form.get('q1') == '4':
+        score += 1
+
+    # Store the score
+    scores.append({"quiz_id": quiz_id, "score": score})
+    return redirect(url_for('view_results'))
+
+# Display past scores for users
+@app.route('/results')
+def view_results():
+    return render_template('results.html', scores=scores)
 
 # Run the app
 if __name__ == '__main__':

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Your Quiz Results</title>
+</head>
+<body>
+    <h1>Your Quiz Results</h1>
+
+    <ul>
+        {% for score in scores %}
+            <li>Quiz ID: {{ score.quiz_id }} - Score: {{ score.score }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
