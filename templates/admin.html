@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+
+    <!-- Add Subject -->
+    <h2>Add Subject</h2>
+    <form action="/add_subject" method="POST">
+        <input type="text" name="name" placeholder="Subject Name" required>
+        <button type="submit">Add Subject</button>
+    </form>
+
+    <!-- Subjects and Chapters -->
+    {% for subject in subjects %}
+        <h2>{{ subject[1] }}</h2>
+
+        <!-- Add Chapter -->
+        <form action="/add_chapter/{{ subject[0] }}" method="POST">
+            <input type="text" name="name" placeholder="Chapter Name" required>
+            <button type="submit">Add Chapter</button>
+        </form>
+
+        {% for chapter in chapters[subject[0]] %}
+            <h3>{{ chapter[2] }}</h3>
+
+            <!-- Add Quiz -->
+            <form action="/add_quiz/{{ chapter[0] }}" method="POST">
+                <input type="text" name="title" placeholder="Quiz Title" required>
+                <input type="number" name="duration" placeholder="Duration (mins)" required>
+                <button type="submit">Add Quiz</button>
+            </form>
+
+            <!-- List Quizzes -->
+            <ul>
+                {% for quiz in quizzes.get(chapter[0], []) %}
+                    <li>{{ quiz[2] }} ({{ quiz[3] }} mins)</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    {% endfor %}
+</body>
+</html>

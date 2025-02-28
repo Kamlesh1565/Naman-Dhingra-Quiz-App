@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Master</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Welcome to Quiz Master</h1>
+    <h2>Available Subjects</h2>
+    <ul>
+        {% for subject in subjects %}
+            <li>{{ subject[1] }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
