@@ -1,1 +1,1 @@
-# Naman-Dhingra-Quiz-App
+# the code is inside master branch
